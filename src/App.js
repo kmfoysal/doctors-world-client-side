@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
 import Home from "./pages/Home/Home";
-import Navigation from "./pages/Home/Shared/Navigation/Navigation";
+import Navigation from "./pages/Shared/Navigation/Navigation";
 
 function App() {
   return (
