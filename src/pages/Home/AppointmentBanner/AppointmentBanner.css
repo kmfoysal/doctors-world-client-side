@@ -1,0 +1,9 @@
+.bgImg {
+  background-image: url("../../../images/appointment-bg.png");
+  background-position: center;
+  /* background-size: cover; */
+  background-color: rgba(23, 32, 42, 0.8);
+  /* opacity: 1; */
+  background-blend-mode: overlay;
+  margin-top: 100px;
+}
