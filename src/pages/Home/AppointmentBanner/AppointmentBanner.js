@@ -15,7 +15,6 @@ import './AppointmentBanner.css';
 const AppointmentBanner = () => {
     return (
         <div className='bgImg'>
-            {/* <Box sx={{ flexGrow: 1 }}> */}
             <Container>
                 <Grid container spacing={2} sx={{ alignItems: 'center' }}>
                     <Grid  xs={12} sm={5} md={4} sx={{display:flexbox, justifyContent:'center'}}>
@@ -32,11 +31,10 @@ const AppointmentBanner = () => {
                         <Typography variant='body1' sx={{color:'#f7f7f7', fontFamily:'montserrat', lineHeight:1.7, mb:3}}>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor cum, nostrum similique nulla perferendis odio asperiores natus ipsa consectetur!
                         </Typography>
-                        <Button variant='contained' size='large' sx={{backgroundImage:'linear-gradient(to right,#93EDC7,#1CD8D2)'}}>Learn More</Button> 
+                        <Button variant='contained' size='large' sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)'}}>Learn More</Button> 
                     </Grid>
                 </Grid>
             </Container>
-        {/* </Box> */}
         </div>
     );
 };

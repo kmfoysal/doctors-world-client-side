@@ -19,7 +19,7 @@ const HeroArea = () => {
                 <Typography variant='body1' sx={{color:'#666', fontFamily:'montserrat', lineHeight:1.7, mb:3}}>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex dolor cum, nostrum similique nulla perferendis odio asperiores natus ipsa consectetur!
                 </Typography>
-                <Button variant='contained' size='large' sx={{backgroundImage:'linear-gradient(to right,#93EDC7,#1CD8D2)'}}>GET APPOINTMENT</Button> 
+                <Button variant='contained' size='large' sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)'}}>GET APPOINTMENT</Button> 
             </div>
         </Grid>
         <Grid item xs={4} sx={{backgroundColor:'#2E4053', display:'flex', alignItems:'center'}}>
