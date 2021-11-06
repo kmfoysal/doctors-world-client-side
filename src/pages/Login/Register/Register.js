@@ -1,11 +1,14 @@
-import { Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 import login from '../../../images/login.png';
 
 const Register = () => {
     const [loginData, setLoginData] = useState({});
+
+    const {registerUser, isLoading} = useAuth();
 
     const handleOnChange = e =>{
         const field = e.target.name;
@@ -22,6 +25,8 @@ const Register = () => {
            return;
         }
 
+        registerUser(loginData.email, loginData.password);
+
         alert('Register Successfully')
         e.preventDefault();
     }
@@ -34,7 +39,7 @@ const Register = () => {
                     <Typography variant='h6' sx={{color:'#666', mb:6, textAlign:'center'}}>
                         Please Register
                     </Typography>
-                       <form onSubmit={handleSubmit} >
+                       {!isLoading && <form onSubmit={handleSubmit} >
                           <TextField 
                             required
                             label="Email" 
@@ -70,7 +75,11 @@ const Register = () => {
                            size='large'
                            type='submit'
                            sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)', width:'100%', mb:3}}>Register</Button>
-                       </form>
+                       </form>}
+
+                       {
+                           isLoading && <CircularProgress color="secondary" />
+                       }
 
                        <Link to='/login' style={{textDecoration:'none'}} >
                          <Button variant='text' sx={{width:'100%'}} >ALREADY REGISTER ? PLEASE LOGIN</Button>

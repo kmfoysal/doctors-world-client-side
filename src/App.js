@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
+import AuthProvider from "./contexts/AuthProvider/AuthProvider";
 import Appointments from "./pages/Appointment/Appointments/Appointments";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login/Login";
@@ -7,7 +8,7 @@ import Register from "./pages/Login/Register/Register";
 
 function App() {
   return (
-    <div className="">
+    <AuthProvider>
       <Router>
         <Switch>
           <Route exact path='/'>
@@ -27,7 +28,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </div>
+    </AuthProvider>
   );
 }
 
