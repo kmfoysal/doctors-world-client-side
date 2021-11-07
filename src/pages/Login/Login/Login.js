@@ -1,11 +1,16 @@
-import { Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
 import login from '../../../images/login.png';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
+    const {user, loginUser, isLoading, authError} = useAuth();
+
+    const location = useLocation();
+    const history = useHistory()
 
     const handleOnChange = e =>{
         const field = e.target.name;
@@ -16,7 +21,7 @@ const Login = () => {
     }
 
     const handleSubmit = e =>{
-        alert('Login Successfully')
+        loginUser(loginData.email, loginData.password, location, history);
         e.preventDefault();
     }
 
@@ -28,7 +33,7 @@ const Login = () => {
                     <Typography variant='h6' sx={{color:'#666', mb:6, textAlign:'center'}}>
                         Please Login
                     </Typography>
-                       <form onSubmit={handleSubmit}>
+                       {!isLoading && <form onSubmit={handleSubmit}>
                           <TextField 
                             required
                             id="standard-basic" 
@@ -56,11 +61,23 @@ const Login = () => {
                            size='large' 
                            type='submit'
                            sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)', width:'100%', mb:3}}>Sign In</Button>
-                       </form>
+                       </form>}
+
+                       {
+                           isLoading && <CircularProgress color="secondary" />
+                       }
 
                        <Link to='/register' style={{textDecoration:'none'}} >
                          <Button variant='text' sx={{width:'100%'}} >NEW USER ? PLEASE REGISTER</Button>
                        </Link>
+
+                       {
+                           user?.email && <Alert severity="success">Login Successfully</Alert>
+                       }
+
+                       {
+                           authError && <Alert severity="error">{authError}</Alert>
+                       }
                 </Box>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{height:'100vh', display:'flex', flexDirection:'column', justifyContent:'flex-end'}}>

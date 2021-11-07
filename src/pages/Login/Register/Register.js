@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
+import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import login from '../../../images/login.png';
 const Register = () => {
     const [loginData, setLoginData] = useState({});
 
-    const {registerUser, isLoading} = useAuth();
+    const {registerUser, isLoading, user, authError} = useAuth();
 
     const handleOnChange = e =>{
         const field = e.target.name;
@@ -26,8 +26,6 @@ const Register = () => {
         }
 
         registerUser(loginData.email, loginData.password);
-
-        alert('Register Successfully')
         e.preventDefault();
     }
 
@@ -84,6 +82,15 @@ const Register = () => {
                        <Link to='/login' style={{textDecoration:'none'}} >
                          <Button variant='text' sx={{width:'100%'}} >ALREADY REGISTER ? PLEASE LOGIN</Button>
                        </Link>
+                       
+                       {
+                           user?.email && <Alert severity="success">Register Successfully</Alert>
+                       }
+
+                       {
+                           authError && <Alert severity="error">{authError}</Alert>
+                       }
+
                 </Box>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{height:'100vh', display:'flex', flexDirection:'column', justifyContent:'flex-end'}}>

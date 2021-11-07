@@ -9,6 +9,7 @@ firebaseInitialize();
 const useFirebse = () =>{
     const [user, setUser] = useState({})
     const [isLoading, setIsLoading] = useState(true);
+    const [authError, setAuthError] = useState('');
 
     const auth = getAuth();
 
@@ -16,27 +17,24 @@ const useFirebse = () =>{
       setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
+          setAuthError('')
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;        
+          setAuthError(error.message);        
         })
         .finally(()=>setIsLoading(false));
     }
 
-    const loginUser =(email, password) =>{
+    const loginUser =(email, password, location, history) =>{
         setIsLoading(true);
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            // ...
+          setAuthError('')
+          const destination = location?.state?.from || '/';
+          history.replace(destination);
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
+          setAuthError(error.message);
         })
         .finally(()=>setIsLoading(false));
     }
@@ -45,9 +43,9 @@ const useFirebse = () =>{
     const logOut = () =>{
         setIsLoading(true);
         signOut(auth).then(() => {
-            // Sign-out successful.
+              setAuthError('')
           }).catch((error) => {
-            // An error happened.
+            setAuthError(error.message);
           })
         .finally(()=>setIsLoading(false));
     }
@@ -69,7 +67,7 @@ const useFirebse = () =>{
     // -----------------------------------------
     
 
-    return {user, registerUser, logOut, loginUser, isLoading }
+    return {user, registerUser, logOut, loginUser, isLoading, authError }
 }
 
 export default useFirebse;

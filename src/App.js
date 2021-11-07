@@ -4,6 +4,7 @@ import AuthProvider from "./contexts/AuthProvider/AuthProvider";
 import Appointments from "./pages/Appointment/Appointments/Appointments";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login/Login";
+import PrivateRoute from "./pages/Login/PrivateRoute/PrivateRoute";
 import Register from "./pages/Login/Register/Register";
 
 function App() {
@@ -17,9 +18,9 @@ function App() {
           <Route path='/home'>
             <Home></Home>
           </Route>
-          <Route path='/appointment'>
+          <PrivateRoute path='/appointment'>
             <Appointments></Appointments>
-          </Route>
+          </PrivateRoute>
           <Route path='/login'>
             <Login></Login>
           </Route>
