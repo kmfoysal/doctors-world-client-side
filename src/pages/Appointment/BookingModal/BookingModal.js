@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 
 
@@ -25,11 +25,44 @@ const BookingModal = ({openBooking, handleBookingClose,booking, date}) => {
 
     const {user} = useAuth();
 
+    const initialInfo = {patientName:user.displayName, email:user.email, phone:''}
+
+    const [appointmentsInfo, setAppointmentsInfo] = useState(initialInfo);
+
+    const handleOnBlur = e =>{
+        const field = e.target.name;
+        const value = e.target.value;
+        const newInfo = {...appointmentsInfo}
+        newInfo[field] = value;
+        setAppointmentsInfo(newInfo);
+    }
+
     const handleBookingSubmit = e =>{ 
-        alert('Submitted Successfully')
+        // Collect Data 
+        const appointment = {
+          ...appointmentsInfo,
+          time,
+          serviceName: name,
+          date : date.toLocaleDateString()
+        }
+
+        // Send to the Server 
+        fetch('http://localhost:5000/appointments', {
+            method:'POST',
+            headers:{
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(appointment)
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+        })
+
         handleBookingClose()
         e.preventDefault();
     }
+    
     return (
         <Modal
         aria-labelledby="transition-modal-title"
@@ -53,33 +86,33 @@ const BookingModal = ({openBooking, handleBookingClose,booking, date}) => {
                 defaultValue={time}
                 id="outlined-basic" 
                 label="Time" 
-                variant="outlined" 
-                // size='small'
+                variant="outlined"
                 sx={{width:'100%', mb:2}} />
 
                 <TextField 
-                disabled
                 id="outlined-basic" 
                 label="Your Name" 
                 defaultValue={user.displayName}
-                variant="outlined" 
-                // size='small'
+                name='patientName'
+                onBlur={handleOnBlur}
+                variant="outlined"
                 sx={{width:'100%', mb:2}} />
 
                 <TextField 
-                disabled
                 id="outlined-basic" 
                 label="Your Email" 
                 defaultValue={user.email}
-                variant="outlined" 
-                // size='small'
+                onBlur={handleOnBlur}
+                name='email'
+                variant="outlined"
                 sx={{width:'100%', mb:2}} />
                 
                 <TextField 
                 id="outlined-basic" 
                 label="Your Phone Number" 
-                variant="outlined" 
-                // size='small'
+                variant="outlined"
+                name='phone'
+                onBlur={handleOnBlur}
                 sx={{width:'100%', mb:2, ":focus":{color:'#19d3ae'}}} />
 
                 <TextField
@@ -88,7 +121,6 @@ const BookingModal = ({openBooking, handleBookingClose,booking, date}) => {
                 id="outlined-basic" 
                 label="Date" 
                 variant="outlined" 
-                // size='small'
                 sx={{width:'100%', mb:2}} />
 
                 <Button type='submit' variant='contained' size='large' sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)', width:'100%'}}>SUBMIT</Button>
