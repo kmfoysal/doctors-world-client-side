@@ -1,7 +1,7 @@
 import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 import login from '../../../images/login.png';
 
@@ -10,7 +10,9 @@ const Register = () => {
 
     const {registerUser, isLoading, user, authError} = useAuth();
 
-    const handleOnChange = e =>{
+    const history = useHistory()
+
+    const handleOnBlur = e =>{
         const field = e.target.name;
         const value = e.target.value;
         const newLoginData = {...loginData};
@@ -25,7 +27,7 @@ const Register = () => {
            return;
         }
 
-        registerUser(loginData.email, loginData.password);
+        registerUser(loginData.email, loginData.password, loginData.name, history);
         e.preventDefault();
     }
 
@@ -40,11 +42,21 @@ const Register = () => {
                        {!isLoading && <form onSubmit={handleSubmit} >
                           <TextField 
                             required
+                            label="Name" 
+                            variant="standard"
+                            type='text'
+                            name='name'
+                            onBlur={handleOnBlur}
+                            sx={{width:'100%', mb:4}}
+                             />
+
+                            <TextField 
+                            required
                             label="Email" 
                             variant="standard"
                             type='email'
                             name='email'
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             sx={{width:'100%', mb:4}}
                              />
 
@@ -52,7 +64,7 @@ const Register = () => {
                             required
                             label="Password" 
                             variant="standard"
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             type='Password'
                             name='password'
                             sx={{width:'100%',mb:4}}
@@ -62,7 +74,7 @@ const Register = () => {
                             required
                             label="Confirm Password" 
                             variant="standard"
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             type='Password'
                             name='password2'
                             sx={{width:'100%',mb:4}}

@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import firebaseInitialize from "../pages/Login/Firebase/firebaseInitialize";
 
@@ -12,12 +12,24 @@ const useFirebse = () =>{
     const [authError, setAuthError] = useState('');
 
     const auth = getAuth();
+    const googleProvider = new GoogleAuthProvider();
 
-    const registerUser = (email, password) => {
+    const registerUser = (email, password, name, history) => {
       setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           setAuthError('')
+          history.push('/')
+          const newUser = {email, displayName:name}
+          setUser(newUser);
+
+          updateProfile(auth.currentUser, {
+            displayName: name
+          }).then(() => {
+            setAuthError('')
+          }).catch((error) => {
+            setAuthError(error.message);   
+          });
         })
         .catch((error) => {
           setAuthError(error.message);        
@@ -44,10 +56,24 @@ const useFirebse = () =>{
         setIsLoading(true);
         signOut(auth).then(() => {
               setAuthError('')
+              window.location.assign('/');
           }).catch((error) => {
             setAuthError(error.message);
           })
         .finally(()=>setIsLoading(false));
+    }
+
+    const loginWithGoogle = (location, history) =>{
+      signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        setAuthError('')
+      })
+      .catch((error) => {
+        setAuthError(error.message);
+      })
+      .finally(()=>setIsLoading(false));
+    
     }
 
     // Observe User State 
@@ -67,7 +93,7 @@ const useFirebse = () =>{
     // -----------------------------------------
     
 
-    return {user, registerUser, logOut, loginUser, isLoading, authError }
+    return {user, registerUser, logOut, loginUser, isLoading, authError, loginWithGoogle }
 }
 
 export default useFirebse;

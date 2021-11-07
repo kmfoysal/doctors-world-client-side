@@ -5,6 +5,7 @@ import Fade from '@mui/material/Fade';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import React from 'react';
+import useAuth from '../../../hooks/useAuth';
 
 
 const style = {
@@ -21,6 +22,8 @@ const style = {
 
 const BookingModal = ({openBooking, handleBookingClose,booking, date}) => {
     const {name, time} = booking;
+
+    const {user} = useAuth();
 
     const handleBookingSubmit = e =>{ 
         alert('Submitted Successfully')
@@ -55,23 +58,24 @@ const BookingModal = ({openBooking, handleBookingClose,booking, date}) => {
                 sx={{width:'100%', mb:2}} />
 
                 <TextField 
-                // defaultValue='Please enter your name'
+                disabled
                 id="outlined-basic" 
                 label="Your Name" 
+                defaultValue={user.displayName}
                 variant="outlined" 
                 // size='small'
                 sx={{width:'100%', mb:2}} />
 
                 <TextField 
-                // defaultValue='Please enter your email'
+                disabled
                 id="outlined-basic" 
                 label="Your Email" 
+                defaultValue={user.email}
                 variant="outlined" 
                 // size='small'
                 sx={{width:'100%', mb:2}} />
                 
                 <TextField 
-                // defaultValue='Please enter your phone number'
                 id="outlined-basic" 
                 label="Your Phone Number" 
                 variant="outlined" 

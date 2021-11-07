@@ -7,7 +7,7 @@ import login from '../../../images/login.png';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
-    const {user, loginUser, isLoading, authError} = useAuth();
+    const {user, loginUser, isLoading, authError, loginWithGoogle} = useAuth();
 
     const location = useLocation();
     const history = useHistory()
@@ -25,6 +25,10 @@ const Login = () => {
         e.preventDefault();
     }
 
+    const handleGoogleLogin = () =>{
+        loginWithGoogle(location, history)
+    }
+
     return (
         <Container sx={{}}>
             <Grid container spacing={3} sx={{mt:0}}>
@@ -39,7 +43,7 @@ const Login = () => {
                             id="standard-basic" 
                             label="Email" 
                             variant="standard"
-                            onChange={handleOnChange}
+                            onBlur={handleOnChange}
                             type='email'
                             name='email'
                             sx={{width:'100%', mb:4}}
@@ -50,7 +54,7 @@ const Login = () => {
                             id="standard-basic" 
                             label="Password" 
                             variant="standard"
-                            onChange={handleOnChange}
+                            onBlur={handleOnChange}
                             type='Password'
                             name='password'
                             sx={{width:'100%',mb:4}}
@@ -70,6 +74,16 @@ const Login = () => {
                        <Link to='/register' style={{textDecoration:'none'}} >
                          <Button variant='text' sx={{width:'100%'}} >NEW USER ? PLEASE REGISTER</Button>
                        </Link>
+
+                       <Typography variant='h6' sx={{textAlign:'center', my:2}}>
+                           ----------OR LOGIN WITH----------
+                        </Typography>
+
+                       <Button
+                           onClick={handleGoogleLogin}
+                           variant='contained' 
+                           size='large'
+                           sx={{backgroundImage:'linear-gradient(133deg, orangeRed 0%, orange 100%)', width:'100%', mb:3}}>Google Sign In</Button>
 
                        {
                            user?.email && <Alert severity="success">Login Successfully</Alert>
