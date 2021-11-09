@@ -10,6 +10,7 @@ const useFirebse = () =>{
     const [user, setUser] = useState({})
     const [isLoading, setIsLoading] = useState(true);
     const [authError, setAuthError] = useState('');
+    const [admin, setAdmin] = useState(false);
 
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
@@ -73,7 +74,7 @@ const useFirebse = () =>{
         const destination = location?.state?.from || '/';
         history.replace(destination);
         setAuthError('')
-        saveUser(user.email, user.name, 'PUT')
+        saveUser(user.email, user.displayName, 'PUT')
       })
       .catch((error) => {
         setAuthError(error.message);
@@ -95,6 +96,13 @@ const useFirebse = () =>{
         .then(res=>res.json())
     }
 
+    // data load for make admim 
+    useEffect(()=>{
+      fetch(`http://localhost:5000/users/${user.email}`)
+      .then(res=>res.json())
+      .then(data => setAdmin(data.admin))
+    },[user?.email])
+
     // Observe User State 
     useEffect(()=>{
        const unSubscribed = onAuthStateChanged(auth, (user) => {
@@ -107,12 +115,12 @@ const useFirebse = () =>{
           });
 
           return ()=> unSubscribed;
-    },[])
+    },[auth])
 
     // -----------------------------------------
     
 
-    return {user, registerUser, logOut, loginUser, isLoading, authError, loginWithGoogle }
+    return {user, admin, registerUser, logOut, loginUser, isLoading, authError, loginWithGoogle }
 }
 
 export default useFirebse;

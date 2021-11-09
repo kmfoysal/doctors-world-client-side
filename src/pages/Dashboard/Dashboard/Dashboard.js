@@ -17,6 +17,8 @@ import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
+import useAuth from '../../../hooks/useAuth';
+import AdminRoute from '../../Login/AdminRoute/AdminRoute';
 import AddDoctor from '../AddDoctor/AddDoctor';
 import DashboardHome from '../DashboardHome/DashboardHome';
 import MakeAdmin from '../MakeAdmin/MakeAdmin';
@@ -27,6 +29,7 @@ const drawerWidth = 240;
 function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const {admin} = useAuth();
 
   let { path, url } = useRouteMatch();
 
@@ -49,7 +52,9 @@ function Dashboard(props) {
              <Button variant='text' size='large'>Dashboard</Button>
           </NavLink>
         </ListItem>
-        <ListItem sx={{justifyContent:'center', flexDirection:'column'}}>
+        {
+          admin && <Box>
+            <ListItem sx={{justifyContent:'center', flexDirection:'column'}}>
           <NavLink to={`${url}/makeAdmin`} style={{textDecoration:'none'}}>
              <Button variant='text' size='large'>Make An Admin</Button>
           </NavLink>
@@ -59,6 +64,8 @@ function Dashboard(props) {
              <Button variant='text' size='large'>Add Doctor</Button>
           </NavLink>
         </ListItem>
+          </Box>
+        }
       </List>
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -142,12 +149,12 @@ function Dashboard(props) {
           <Route exact path={path}>
             <DashboardHome></DashboardHome>
           </Route>
-          <Route path={`${path}/makeAdmin`}>
+          <AdminRoute path={`${path}/makeAdmin`}>
             <MakeAdmin></MakeAdmin>
-          </Route>
-          <Route path={`${path}/addDoctor`}>
+          </AdminRoute>
+          <AdminRoute path={`${path}/addDoctor`}>
             <AddDoctor></AddDoctor>
-          </Route>
+          </AdminRoute>
         </Switch>
         
       </Box>

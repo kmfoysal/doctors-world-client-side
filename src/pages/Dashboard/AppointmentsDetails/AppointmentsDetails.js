@@ -17,7 +17,7 @@ const AppointmentsDetails = ({date}) => {
         fetch(url)
         .then(res=>res.json())
         .then(data=>setAppointmentsDetails(data))
-    },[date])
+    },[date, user.email])
     return (
         <div>
             <h2>Appointments : {appointmentsDetails.length}</h2>
