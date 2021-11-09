@@ -28,6 +28,7 @@ const AppointmentsDetails = ({date}) => {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell >Time</TableCell>
+                            <TableCell >Service</TableCell>
                             <TableCell >Action</TableCell>
                         </TableRow>
                     </TableHead>
@@ -41,6 +42,7 @@ const AppointmentsDetails = ({date}) => {
                             {row.patientName}
                         </TableCell>
                         <TableCell>{row.time}</TableCell>
+                        <TableCell>{row.serviceName}</TableCell>
                         <TableCell>{}</TableCell>
                         </TableRow>
                     ))}

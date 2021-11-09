@@ -1,7 +1,7 @@
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 import Calender from '../../Shared/Calender/Calender';
 import AppointmentsDetails from '../AppointmentsDetails/AppointmentsDetails';
 
@@ -34,6 +35,13 @@ function Dashboard(props) {
     <div>
       <Toolbar />
       <Divider />
+      <List>
+        <ListItem sx={{justifyContent:'center', flexDirection:'column'}}>
+          <NavLink to='/appointment' style={{textDecoration:'none'}}>
+             <Button type='submit' variant='contained' size='large' sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)', width:'100%'}}>Appointment</Button>
+          </NavLink>
+        </ListItem>
+      </List>
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem button key={text}>

@@ -14,7 +14,7 @@ const useFirebse = () =>{
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
 
-    const registerUser = (email, password, name, history) => {
+    const registerUser = (email, password, name, history, method) => {
       setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -22,7 +22,10 @@ const useFirebse = () =>{
           history.push('/')
           const newUser = {email, displayName:name}
           setUser(newUser);
+          // Save user to DB 
+          saveUser(email, name, "POST");
 
+          // Send name to firebase after creation 
           updateProfile(auth.currentUser, {
             displayName: name
           }).then(() => {
@@ -70,12 +73,26 @@ const useFirebse = () =>{
         const destination = location?.state?.from || '/';
         history.replace(destination);
         setAuthError('')
+        saveUser(user.email, user.name, 'PUT')
       })
       .catch((error) => {
         setAuthError(error.message);
       })
       .finally(()=>setIsLoading(false));
     
+    }
+
+    const saveUser = (email, displayName, method) =>{
+        const user = {email, displayName}
+
+        fetch('http://localhost:5000/users',{
+          method: method,
+          headers:{
+            'content-type':'application/json'
+          },
+          body: JSON.stringify(user)
+        })
+        .then(res=>res.json())
     }
 
     // Observe User State 
