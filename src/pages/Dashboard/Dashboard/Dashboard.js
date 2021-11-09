@@ -1,7 +1,7 @@
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { Button, Grid } from '@mui/material';
+import { Button } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,16 +16,19 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
-import Calender from '../../Shared/Calender/Calender';
-import AppointmentsDetails from '../AppointmentsDetails/AppointmentsDetails';
+import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
+import AddDoctor from '../AddDoctor/AddDoctor';
+import DashboardHome from '../DashboardHome/DashboardHome';
+import MakeAdmin from '../MakeAdmin/MakeAdmin';
+
 
 const drawerWidth = 240;
 
 function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [date, setDate] = React.useState(new Date());
+
+  let { path, url } = useRouteMatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -38,7 +41,22 @@ function Dashboard(props) {
       <List>
         <ListItem sx={{justifyContent:'center', flexDirection:'column'}}>
           <NavLink to='/appointment' style={{textDecoration:'none'}}>
-             <Button type='submit' variant='contained' size='large' sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)', width:'100%'}}>Appointment</Button>
+             <Button variant='contained' size='large' sx={{backgroundImage:'linear-gradient(133deg, #19d3ae 0%, #0fcfec 100%)', width:'100%'}}>Appointment</Button>
+          </NavLink>
+        </ListItem>
+        <ListItem sx={{justifyContent:'center', flexDirection:'column'}}>
+          <NavLink to={`${url}`} style={{textDecoration:'none'}}>
+             <Button variant='text' size='large'>Dashboard</Button>
+          </NavLink>
+        </ListItem>
+        <ListItem sx={{justifyContent:'center', flexDirection:'column'}}>
+          <NavLink to={`${url}/makeAdmin`} style={{textDecoration:'none'}}>
+             <Button variant='text' size='large'>Make An Admin</Button>
+          </NavLink>
+        </ListItem>
+        <ListItem sx={{justifyContent:'center', flexDirection:'column'}}>
+          <NavLink to={`${url}/addDoctor`} style={{textDecoration:'none'}}>
+             <Button variant='text' size='large'>Add Doctor</Button>
           </NavLink>
         </ListItem>
       </List>
@@ -119,14 +137,19 @@ function Dashboard(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={4}>
-                <Calender date={date} setDate={setDate}></Calender>
-            </Grid>
-            <Grid item xs={12} sm={6} md={8}>
-               <AppointmentsDetails date={date}></AppointmentsDetails>
-            </Grid>
-        </Grid>
+
+        <Switch>
+          <Route exact path={path}>
+            <DashboardHome></DashboardHome>
+          </Route>
+          <Route path={`${path}/makeAdmin`}>
+            <MakeAdmin></MakeAdmin>
+          </Route>
+          <Route path={`${path}/addDoctor`}>
+            <AddDoctor></AddDoctor>
+          </Route>
+        </Switch>
+        
       </Box>
     </Box>
   );
