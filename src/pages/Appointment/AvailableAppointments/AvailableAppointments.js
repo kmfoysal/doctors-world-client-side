@@ -10,32 +10,39 @@ const AvailableAppointments = ({date}) => {
         {id:1,
          name: 'Preventative Dentistry',
          time: '10:00 am - 11:00 am',
-         space: '10 space available'
+         space: '10 space available',
+         price: 90
+
         },
         {id:2,
         name: 'Costmetic Dentistry',
         time: '11:00 am - 12:00 am',
-        space: '5 space available'
+        space: '5 space available',
+        price: 200
         },
         {id:3,
         name: 'Orthodontics',
         time: '9:00 am - 10:00 am',
-        space: '13 space available'
+        space: '13 space available',
+        price: 120
         },
         {id:4,
         name: 'Tooth Whitening',
         time: '3:00 pm - 4:00 pm',
-        space: '20 space available'
+        space: '20 space available',
+        price: 120
         },
         {id:5,
         name: 'Emergency Dental Care',
         time: '10:00 am - 11:00 am',
-        space: '11 space available'
+        space: '11 space available',
+        price: 110
         },
         {id:6,
         name: 'Dental Implants',
         time: '10:00 am - 11:00 am',
-        space: '6 space available'
+        space: '6 space available',
+        price: 50
         }
     ]
     return (

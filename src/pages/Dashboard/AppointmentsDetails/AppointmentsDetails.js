@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import useAuth from '../../../hooks/useAuth';
 
 const AppointmentsDetails = ({date}) => {
@@ -13,7 +14,7 @@ const AppointmentsDetails = ({date}) => {
     const {user} = useAuth();
 
     useEffect(()=>{
-        const url = `http://localhost:5000/appointmentsdetails?email=${user.email}&date=${date}`
+        const url = `https://thawing-tor-57287.herokuapp.com/appointmentsdetails?email=${user.email}&date=${date}`
         fetch(url)
         .then(res=>res.json())
         .then(data=>setAppointmentsDetails(data))
@@ -43,7 +44,12 @@ const AppointmentsDetails = ({date}) => {
                         </TableCell>
                         <TableCell>{row.time}</TableCell>
                         <TableCell>{row.serviceName}</TableCell>
-                        <TableCell>{}</TableCell>
+                        <TableCell>{row.payment ? 
+                                                  'Paid'
+                                                   :
+                                                   <Link to={`dashboard/payment/${row._id}`}>
+                                                      <button>Pay</button>
+                                                   </Link>}</TableCell>
                         </TableRow>
                     ))}
                     </TableBody>
